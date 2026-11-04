@@ -1,0 +1,58 @@
+{
+  "area": "services",
+  "name": "services-ok-null-latency",
+  "description": "avg_latency_ms may be null; the entry is accepted and the null is kept.",
+  "evidence": [
+    "contract:docs/contract.md §2.5"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/services",
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "public, max-age=30"
+        },
+        "json": {
+          "success": true,
+          "data": {
+            "services": [
+              {
+                "id": 7,
+                "slug": "turnstile",
+                "display_name": "Cloudflare Turnstile",
+                "price_per_request": "0.0006",
+                "status": "active",
+                "avg_latency_ms": null
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "listServices"
+  },
+  "expect": {
+    "outcomeSubset": [
+      {
+        "pointer": "",
+        "length": 1
+      },
+      {
+        "pointer": "/0/slug",
+        "equals": "turnstile"
+      },
+      {
+        "pointer": "/0/avg_latency_ms",
+        "equals": null
+      }
+    ]
+  }
+}

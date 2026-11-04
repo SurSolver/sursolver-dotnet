@@ -1,0 +1,49 @@
+{
+  "area": "get-balance",
+  "name": "get-balance-error-unknown-code",
+  "description": "An unknown errorCode on getBalance is a plain ApiError with the raw code.",
+  "evidence": [
+    "contract:docs/contract.md §4 error-code table",
+    "contract:docs/design.md §3 Errors"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_CONFORMANCE_UNKNOWN",
+          "errorDescription": "A future error."
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "ApiError",
+        "operation": "getBalance",
+        "code": "ERROR_CONFORMANCE_UNKNOWN",
+        "retryable": false,
+        "messageIncludes": [
+          "ERROR_CONFORMANCE_UNKNOWN"
+        ]
+      }
+    }
+  }
+}

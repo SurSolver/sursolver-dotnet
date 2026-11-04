@@ -1,0 +1,43 @@
+{
+  "area": "task-types",
+  "name": "task-types-transport-success-false",
+  "description": "A 200 internal envelope with success false is not the API envelope: TransportError.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule",
+    "contract:docs/contract.md §1 internal envelope"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/task-types",
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "json": {
+          "success": false,
+          "error": {
+            "code": "internal_error",
+            "message": "Internal server error."
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "listTaskTypes"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "listTaskTypes",
+        "status": 200
+      }
+    }
+  }
+}

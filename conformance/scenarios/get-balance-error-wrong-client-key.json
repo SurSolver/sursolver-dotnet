@@ -1,0 +1,36 @@
+{
+  "area": "get-balance",
+  "name": "get-balance-error-wrong-client-key",
+  "description": "ERROR_WRONG_CLIENT_KEY on getBalance is an AuthenticationError.",
+  "evidence": [
+    "recorded:get-balance-missing-clientkey.json"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "respondFrom": "get-balance-missing-clientkey.json"
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "getBalance",
+        "type": "AuthenticationError",
+        "code": "ERROR_WRONG_CLIENT_KEY"
+      }
+    }
+  }
+}

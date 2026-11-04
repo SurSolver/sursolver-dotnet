@@ -1,0 +1,61 @@
+{
+  "area": "create-task",
+  "name": "create-task-error-unknown-code",
+  "description": "An errorCode the SDK does not know is surfaced as a plain ApiError with the raw code.",
+  "evidence": [
+    "contract:docs/contract.md §4 error-code table",
+    "contract:docs/design.md §3 Errors"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_CONFORMANCE_UNKNOWN",
+          "errorDescription": "A code added after this SDK was built."
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "createTask",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "createTask",
+        "type": "ApiError",
+        "code": "ERROR_CONFORMANCE_UNKNOWN",
+        "retryable": false
+      }
+    }
+  }
+}

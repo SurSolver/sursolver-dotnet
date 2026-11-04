@@ -1,0 +1,23 @@
+{
+  "area": "construction",
+  "name": "construction-blank-key",
+  "description": "A whitespace-only apiKey raises ConfigurationError and sends nothing.",
+  "evidence": [
+    "contract:docs/design.md §3 construction rules"
+  ],
+  "client": {
+    "apiKey": "   "
+  },
+  "script": [],
+  "call": {
+    "method": "construct"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "type": "ConfigurationError"
+      }
+    }
+  }
+}

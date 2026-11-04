@@ -1,0 +1,38 @@
+{
+  "area": "task-types",
+  "name": "task-types-transport-missing-data",
+  "description": "A 200 body without success:true and a data object is a TransportError.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/task-types",
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "json": {
+          "success": true
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "listTaskTypes"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "listTaskTypes",
+        "status": 200
+      }
+    }
+  }
+}

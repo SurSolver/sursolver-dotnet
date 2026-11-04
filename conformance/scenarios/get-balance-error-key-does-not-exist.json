@@ -1,0 +1,36 @@
+{
+  "area": "get-balance",
+  "name": "get-balance-error-key-does-not-exist",
+  "description": "ERROR_KEY_DOES_NOT_EXIST on getBalance is an AuthenticationError.",
+  "evidence": [
+    "recorded:get-balance-invalid-key.json"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "respondFrom": "get-balance-invalid-key.json"
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "getBalance",
+        "type": "AuthenticationError",
+        "code": "ERROR_KEY_DOES_NOT_EXIST"
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "area": "solve",
+  "name": "solve-poll-wrong-useragent-terminal",
+  "description": "ERROR_WRONG_USERAGENT after acceptance ends solve() with TaskFailedError and the supported list; the SDK does not resubmit.",
+  "evidence": [
+    "contract:docs/design.md §3 solve() semantics",
+    "contract:docs/contract.md §2.2 getTaskResult"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 0,
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21",
+          "status": "idle"
+        }
+      }
+    },
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_WRONG_USERAGENT",
+          "errorDescription": "The userAgent is not supported. Use one of the supportedUserAgents values.",
+          "supportedUserAgents": [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36"
+          ]
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "solve",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "type": "TaskFailedError",
+        "code": "ERROR_WRONG_USERAGENT",
+        "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21",
+        "supportedUserAgents": [
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36"
+        ]
+      }
+    }
+  }
+}

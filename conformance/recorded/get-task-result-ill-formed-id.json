@@ -1,0 +1,30 @@
+{
+  "name": "get-task-result-ill-formed-id",
+  "recorded_at": "2026-10-19T20:05:59.098Z",
+  "base_url": "http://127.0.0.1:3000",
+  "request": {
+    "method": "POST",
+    "path": "/getTaskResult",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "clientKey": "ssk_live_0000000000000000000000000000000000000000",
+      "taskId": "not-a-task-id"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "cache-control": "no-store",
+      "content-length": "122"
+    },
+    "body": {
+      "errorId": 1,
+      "errorCode": "ERROR_KEY_DOES_NOT_EXIST",
+      "errorDescription": "The clientKey does not match any active API key."
+    },
+    "body_is_json": true
+  }
+}

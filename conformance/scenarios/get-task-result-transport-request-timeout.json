@@ -1,0 +1,37 @@
+{
+  "area": "get-task-result",
+  "name": "get-task-result-transport-request-timeout",
+  "description": "A timed-out getTaskResult is TransportError and is not retried by the plain call.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "fail": "request_timeout"
+    }
+  ],
+  "call": {
+    "method": "getTaskResult",
+    "args": {
+      "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+    }
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "getTaskResult",
+        "mayHaveCreatedTask": false
+      }
+    }
+  }
+}

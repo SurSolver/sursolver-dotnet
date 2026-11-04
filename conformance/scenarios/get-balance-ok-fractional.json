@@ -1,0 +1,40 @@
+{
+  "area": "get-balance",
+  "name": "get-balance-ok-fractional",
+  "description": "The balance is the JSON number as sent.",
+  "evidence": [
+    "contract:docs/contract.md §2.3 getBalance"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 0,
+          "balance": 9.987
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "ok": 9.987
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "area": "create-task",
+  "name": "create-task-transport-connection-closed",
+  "description": "A connection closed with no response (e.g. a body over 1 MiB) is a TransportError.",
+  "evidence": [
+    "recorded:oversized-body.json",
+    "contract:docs/contract.md §1 transport-failure rule"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "fail": "connection_closed_no_response"
+    }
+  ],
+  "call": {
+    "method": "createTask",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "createTask",
+        "type": "TransportError",
+        "mayHaveCreatedTask": true
+      }
+    }
+  }
+}

@@ -1,0 +1,466 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sursolver.com/spec/conformance/scenario.schema.json",
+  "title": "SurSolver SDK conformance scenario",
+  "description": "One hermetic scenario: a scripted fake-transport exchange and the expected client outcome. See conformance/README.md for the runner contract.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "area",
+    "name",
+    "evidence",
+    "script",
+    "call"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "area": {
+      "enum": [
+        "construction",
+        "create-task",
+        "get-task-result",
+        "solve",
+        "get-balance",
+        "task-types",
+        "services",
+        "security",
+        "user-agent"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Must equal the file name without .json and start with the area prefix."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^(recorded:[A-Za-z0-9][A-Za-z0-9._-]*\\.json|contract:\\S.+)$",
+        "description": "recorded:<file in conformance/recorded/> or contract:<section reference>."
+      }
+    },
+    "random": {
+      "type": "number",
+      "minimum": 0,
+      "exclusiveMaximum": 1,
+      "description": "Fixed value the harness feeds the client's random source. Default 0."
+    },
+    "client": {
+      "$ref": "#/$defs/client"
+    },
+    "script": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/scriptEntry"
+      }
+    },
+    "call": {
+      "$ref": "#/$defs/call"
+    },
+    "expect": {
+      "$ref": "#/$defs/expectations"
+    }
+  },
+  "$defs": {
+    "client": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Overrides for the harness's default client configuration. Invalid values are only meaningful in construction scenarios, where rejecting them is the behaviour under test.",
+      "properties": {
+        "apiKey": {
+          "type": "string"
+        },
+        "baseUrl": {
+          "type": "string",
+          "pattern": "^https?://\\S+$"
+        },
+        "requestTimeoutMs": {
+          "type": "integer"
+        },
+        "pollIntervalMs": {
+          "type": "integer"
+        },
+        "solveTimeoutMs": {
+          "type": "integer"
+        },
+        "maxSubmitRetries": {
+          "type": "integer"
+        },
+        "appId": {
+          "type": "string"
+        },
+        "userAgentSuffix": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "headerValue": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "matches"
+          ],
+          "properties": {
+            "matches": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "headers": {
+      "type": "object",
+      "description": "Subset match; header names lowercase, compared case-insensitively.",
+      "propertyNames": {
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/headerValue"
+      }
+    },
+    "requestExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "path"
+      ],
+      "properties": {
+        "method": {
+          "enum": [
+            "GET",
+            "POST"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "headers": {
+          "$ref": "#/$defs/headers"
+        },
+        "json": {
+          "description": "Request body deep-equal, ignoring key order. Absent means the body is not asserted."
+        },
+        "noQuery": {
+          "type": "boolean",
+          "description": "Assert the request URL has no query string."
+        }
+      }
+    },
+    "scriptEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expect"
+      ],
+      "properties": {
+        "expect": {
+          "$ref": "#/$defs/requestExpectation"
+        },
+        "respond": {
+          "$ref": "#/$defs/respond"
+        },
+        "fail": {
+          "enum": [
+            "connection_reset",
+            "request_timeout",
+            "connection_closed_no_response"
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "respond"
+          ]
+        },
+        {
+          "required": [
+            "fail"
+          ]
+        }
+      ]
+    },
+    "respond": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "respondFrom"
+          ],
+          "properties": {
+            "respondFrom": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*\\.json$",
+              "description": "Response body (and status, unless overridden) loaded from conformance/recorded/<file>."
+            },
+            "status": {
+              "type": "integer",
+              "minimum": 200,
+              "maximum": 599
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 599
+            },
+            "headers": {
+              "type": "object"
+            },
+            "json": {},
+            "text": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "call": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ],
+      "properties": {
+        "method": {
+          "enum": [
+            "construct",
+            "createTask",
+            "getTaskResult",
+            "getBalance",
+            "listTaskTypes",
+            "listServices",
+            "solve"
+          ]
+        },
+        "args": {
+          "type": "object"
+        },
+        "cancelAfterSleeps": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "solve() only: the harness cancels the call after the n-th recorded sleep."
+        }
+      }
+    },
+    "errorExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "description": "`type` names the most specific class: the harness asserts that exact class (Go/Rust: kind), so ApiError means \"not one of its subclasses\".",
+      "properties": {
+        "type": {
+          "enum": [
+            "ConfigurationError",
+            "ApiError",
+            "AuthenticationError",
+            "InvalidTaskError",
+            "InsufficientBalanceError",
+            "NoSlotAvailableError",
+            "TaskNotFoundError",
+            "TaskFailedError",
+            "SolveTimeoutError",
+            "TransportError",
+            "ProtocolError",
+            "Cancelled"
+          ]
+        },
+        "operation": {
+          "enum": [
+            "createTask",
+            "getTaskResult",
+            "getBalance",
+            "listTaskTypes",
+            "listServices"
+          ],
+          "description": "The client operation the error belongs to (solve() reports the failing inner call)."
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]*$",
+          "description": "ApiError family: the errorCode as sent, including codes the SDK does not know."
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "taskId": {
+          "type": "string",
+          "pattern": "^tsk_[0-9a-f]{24}$"
+        },
+        "supportedUserAgents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "ApiError family: exact list, [] when the API sent none."
+        },
+        "status": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599,
+          "description": "TransportError: the HTTP status when one was received."
+        },
+        "serverCode": {
+          "type": "string",
+          "description": "TransportError: error.code of an internal envelope."
+        },
+        "retryAfterSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "TransportError: error.retry_after_seconds of an internal envelope."
+        },
+        "mayHaveCreatedTask": {
+          "type": "boolean",
+          "description": "TransportError: true exactly when the failing operation is createTask."
+        },
+        "lastErrorType": {
+          "enum": [
+            "ApiError",
+            "AuthenticationError",
+            "InvalidTaskError",
+            "InsufficientBalanceError",
+            "NoSlotAvailableError",
+            "TaskNotFoundError",
+            "TaskFailedError",
+            "TransportError",
+            "ProtocolError",
+            null
+          ],
+          "description": "SolveTimeoutError: class of the final poll's transient error; null asserts the final poll had none (an earlier transient error does not count). Absent means not asserted."
+        },
+        "messageIncludes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "messageExcludes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "subsetCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pointer"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "length"
+          ]
+        },
+        {
+          "required": [
+            "equals"
+          ]
+        }
+      ],
+      "properties": {
+        "pointer": {
+          "type": "string",
+          "pattern": "^(/([^/~]|~[01])*)*$",
+          "description": "RFC 6901 JSON Pointer resolved against the raw ok value before key normalisation."
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "equals": {}
+      }
+    },
+    "expectations": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sleeps": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Exact sleep durations in ms the SDK must request, in order."
+        },
+        "outcome": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ok"
+              ],
+              "properties": {
+                "ok": {}
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "$ref": "#/$defs/errorExpectation"
+                }
+              }
+            }
+          ]
+        },
+        "outcomeSubset": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/subsetCheck"
+          }
+        },
+        "redaction": {
+          "type": "boolean",
+          "description": "Assert the API key appears in no URL, header or error string/representation, only in the JSON body field clientKey."
+        },
+        "lastTaskId": {
+          "type": "string",
+          "pattern": "^tsk_[0-9a-f]{24}$",
+          "description": "Assert the task id the client delivered to the solve() onTaskCreated callback (cancellation, timeout, terminal failure)."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>12</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>SurSolver</RootNamespace>
+    <AssemblyName>SurSolver</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+    <!-- Version is the single source: SurSolverClient.Version reads it from the assembly. -->
+    <Version>0.1.0</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+
+    <PackageId>SurSolver</PackageId>
+    <Authors>SurSolver</Authors>
+    <Copyright>Copyright (c) 2026 SurSolver</Copyright>
+    <Description>Official .NET client for the SurSolver captcha solver API. Solve reCAPTCHA v3, Cloudflare Turnstile, Cloudflare Challenge (cf_clearance), GeeTest, DataDome, AWS WAF, Akamai, Kasada and image captchas from C# with one async call.</Description>
+    <PackageTags>captcha;captcha-solver;recaptcha;recaptcha-v3;turnstile;cloudflare;cf-clearance;geetest;datadome;aws-waf;akamai;kasada;image-captcha;solver;sursolver</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://sursolver.com</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/sursolver/sursolver-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+</Project>

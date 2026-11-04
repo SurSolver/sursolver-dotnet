@@ -1,0 +1,65 @@
+{
+  "area": "get-task-result",
+  "name": "get-task-result-ready-solution-passed-through",
+  "description": "A ready solution is passed through untouched: real cookie names and nested objects keep their exact keys.",
+  "evidence": [
+    "contract:docs/contract.md §2.2 getTaskResult",
+    "contract:docs/contract.md §7.3 result notes"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 0,
+          "status": "ready",
+          "solution": {
+            "cf_clearance": "conformance_cf_clearance",
+            "__cf_bm": "conformance_cf_bm",
+            "cookies": {
+              "cf_clearance": "conformance_cf_clearance",
+              "__cf_bm": "conformance_cf_bm",
+              "extra_cookie": "x"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getTaskResult",
+    "args": {
+      "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "ok": {
+        "status": "ready",
+        "solution": {
+          "cf_clearance": "conformance_cf_clearance",
+          "__cf_bm": "conformance_cf_bm",
+          "cookies": {
+            "cf_clearance": "conformance_cf_clearance",
+            "__cf_bm": "conformance_cf_bm",
+            "extra_cookie": "x"
+          }
+        }
+      }
+    }
+  }
+}

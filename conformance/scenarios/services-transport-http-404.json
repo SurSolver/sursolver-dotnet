@@ -1,0 +1,43 @@
+{
+  "area": "services",
+  "name": "services-transport-http-404",
+  "description": "A 404 on the services read is a TransportError.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/services",
+        "noQuery": true
+      },
+      "respond": {
+        "status": 404,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "json": {
+          "success": false,
+          "error": {
+            "code": "not_found",
+            "message": "Route not found."
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "listServices"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "listServices",
+        "status": 404,
+        "serverCode": "not_found"
+      }
+    }
+  }
+}

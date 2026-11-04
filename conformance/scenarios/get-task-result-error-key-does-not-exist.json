@@ -1,0 +1,42 @@
+{
+  "area": "get-task-result",
+  "name": "get-task-result-error-key-does-not-exist",
+  "description": "An invalid key on a poll is an AuthenticationError carrying the taskId.",
+  "evidence": [
+    "recorded:get-task-result-invalid-key.json",
+    "contract:docs/contract.md §4 error-code table"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "respondFrom": "get-task-result-invalid-key.json"
+      }
+    }
+  ],
+  "call": {
+    "method": "getTaskResult",
+    "args": {
+      "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "getTaskResult",
+        "type": "AuthenticationError",
+        "code": "ERROR_KEY_DOES_NOT_EXIST",
+        "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+      }
+    }
+  }
+}

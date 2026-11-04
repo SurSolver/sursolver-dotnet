@@ -1,0 +1,54 @@
+{
+  "area": "create-task",
+  "name": "create-task-transport-http-500-empty-body",
+  "description": "A 500 with an empty body on createTask is TransportError; the task may exist and the message says so.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule",
+    "contract:docs/contract.md §5 charging and retry safety"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 500
+      }
+    }
+  ],
+  "call": {
+    "method": "createTask",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "createTask",
+        "status": 500,
+        "mayHaveCreatedTask": true,
+        "messageIncludes": [
+          "charged"
+        ]
+      }
+    }
+  }
+}

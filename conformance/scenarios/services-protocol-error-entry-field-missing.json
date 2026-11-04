@@ -1,0 +1,49 @@
+{
+  "area": "services",
+  "name": "services-protocol-error-entry-field-missing",
+  "description": "A service entry without price_per_request is a ProtocolError.",
+  "evidence": [
+    "contract:docs/contract.md §2.5",
+    "contract:docs/design.md §3 Errors"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/services",
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "json": {
+          "success": true,
+          "data": {
+            "services": [
+              {
+                "id": 1,
+                "slug": "turnstile",
+                "display_name": "Cloudflare Turnstile",
+                "status": "active",
+                "avg_latency_ms": null
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "listServices"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "ProtocolError",
+        "operation": "listServices"
+      }
+    }
+  }
+}

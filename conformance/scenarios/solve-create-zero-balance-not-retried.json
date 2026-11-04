@@ -1,0 +1,63 @@
+{
+  "area": "solve",
+  "name": "solve-create-zero-balance-not-retried",
+  "description": "ERROR_ZERO_BALANCE on submit ends solve() at once with InsufficientBalanceError: no sleep, no poll, no resubmission.",
+  "evidence": [
+    "contract:docs/design.md §3 solve() semantics",
+    "contract:docs/contract.md §4 error-code table",
+    "contract:docs/contract.md §5 charging and retry safety"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_ZERO_BALANCE",
+          "errorDescription": "Insufficient balance."
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "solve",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "type": "InsufficientBalanceError",
+        "operation": "createTask",
+        "code": "ERROR_ZERO_BALANCE",
+        "retryable": false,
+        "supportedUserAgents": []
+      }
+    }
+  }
+}

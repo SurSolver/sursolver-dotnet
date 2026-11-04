@@ -1,0 +1,52 @@
+{
+  "area": "get-task-result",
+  "name": "get-task-result-error-task-not-found",
+  "description": "ERROR_TASK_NOT_FOUND is a TaskNotFoundError carrying the taskId.",
+  "evidence": [
+    "contract:docs/contract.md §2.2 getTaskResult",
+    "contract:docs/contract.md §4 error-code table"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_TASK_NOT_FOUND",
+          "errorDescription": "Task not found."
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getTaskResult",
+    "args": {
+      "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "getTaskResult",
+        "type": "TaskNotFoundError",
+        "code": "ERROR_TASK_NOT_FOUND",
+        "retryable": false,
+        "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+      }
+    }
+  }
+}

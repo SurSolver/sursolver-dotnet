@@ -1,0 +1,60 @@
+{
+  "area": "create-task",
+  "name": "create-task-error-internal",
+  "description": "ERROR_INTERNAL_ERROR on createTask is a plain ApiError with retryable false.",
+  "evidence": [
+    "contract:docs/contract.md §4 error-code table"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_INTERNAL_ERROR",
+          "errorDescription": "Internal server error."
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "createTask",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "createTask",
+        "type": "ApiError",
+        "code": "ERROR_INTERNAL_ERROR",
+        "retryable": false
+      }
+    }
+  }
+}

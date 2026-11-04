@@ -1,0 +1,59 @@
+{
+  "area": "create-task",
+  "name": "create-task-transport-200-error-id-string",
+  "description": "A 200 body whose errorId is a string is not the solver envelope: TransportError.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": "0",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21",
+          "status": "idle"
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "createTask",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "createTask",
+        "status": 200,
+        "mayHaveCreatedTask": true
+      }
+    }
+  }
+}

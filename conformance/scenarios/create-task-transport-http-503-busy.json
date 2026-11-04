@@ -1,0 +1,65 @@
+{
+  "area": "create-task",
+  "name": "create-task-transport-http-503-busy",
+  "description": "HTTP 503 busy carries status, serverCode and the internal retry_after_seconds.",
+  "evidence": [
+    "contract:docs/contract.md §1 internal envelope"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 503,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "json": {
+          "success": false,
+          "error": {
+            "code": "service_unavailable",
+            "message": "Server is busy. Try again shortly.",
+            "retry_after": 1,
+            "retry_after_seconds": 1
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "createTask",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "createTask",
+        "type": "TransportError",
+        "status": 503,
+        "serverCode": "service_unavailable",
+        "retryAfterSeconds": 1,
+        "mayHaveCreatedTask": true
+      }
+    }
+  }
+}

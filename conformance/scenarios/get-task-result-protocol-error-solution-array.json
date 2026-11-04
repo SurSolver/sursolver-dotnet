@@ -1,0 +1,50 @@
+{
+  "area": "get-task-result",
+  "name": "get-task-result-protocol-error-solution-array",
+  "description": "status ready with a solution that is an array, not an object, is ProtocolError.",
+  "evidence": [
+    "contract:docs/contract.md §2.2 getTaskResult",
+    "contract:docs/design.md §3 Errors"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 0,
+          "status": "ready",
+          "solution": [
+            "0.conformance_example_token"
+          ]
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getTaskResult",
+    "args": {
+      "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+    }
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "ProtocolError",
+        "operation": "getTaskResult"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "create-task-empty-body",
+  "recorded_at": "2026-10-19T20:05:59.095Z",
+  "base_url": "http://127.0.0.1:3000",
+  "request": {
+    "method": "POST",
+    "path": "/createTask",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": ""
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "cache-control": "no-store",
+      "content-length": "89"
+    },
+    "body": {
+      "errorId": 1,
+      "errorCode": "ERROR_INVALID_REQUEST",
+      "errorDescription": "Invalid JSON body."
+    },
+    "body_is_json": true
+  }
+}

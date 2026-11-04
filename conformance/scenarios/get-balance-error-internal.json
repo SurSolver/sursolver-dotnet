@@ -1,0 +1,45 @@
+{
+  "area": "get-balance",
+  "name": "get-balance-error-internal",
+  "description": "ERROR_INTERNAL_ERROR on getBalance is ApiError.",
+  "evidence": [
+    "contract:docs/contract.md §4 error-code table"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_INTERNAL_ERROR",
+          "errorDescription": "Internal server error."
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "ApiError",
+        "operation": "getBalance",
+        "code": "ERROR_INTERNAL_ERROR",
+        "retryable": false
+      }
+    }
+  }
+}

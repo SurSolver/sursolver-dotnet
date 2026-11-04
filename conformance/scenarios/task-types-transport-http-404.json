@@ -1,0 +1,33 @@
+{
+  "area": "task-types",
+  "name": "task-types-transport-http-404",
+  "description": "A 404 on the catalog read is a TransportError.",
+  "evidence": [
+    "recorded:wrong-method-post-task-types.json"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/task-types",
+        "noQuery": true
+      },
+      "respond": {
+        "respondFrom": "wrong-method-post-task-types.json"
+      }
+    }
+  ],
+  "call": {
+    "method": "listTaskTypes"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "listTaskTypes",
+        "status": 404,
+        "serverCode": "not_found"
+      }
+    }
+  }
+}

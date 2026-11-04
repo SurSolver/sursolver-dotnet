@@ -1,0 +1,60 @@
+{
+  "area": "get-task-result",
+  "name": "get-task-result-error-wrong-useragent",
+  "description": "ERROR_WRONG_USERAGENT on a poll is a TaskFailedError (accepted task, refunded) with supportedUserAgents.",
+  "evidence": [
+    "contract:docs/contract.md §2.2 getTaskResult",
+    "contract:docs/contract.md §4 error-code table"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_WRONG_USERAGENT",
+          "errorDescription": "The userAgent is not supported. Use one of the supportedUserAgents values.",
+          "supportedUserAgents": [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          ]
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getTaskResult",
+    "args": {
+      "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "getTaskResult",
+        "type": "TaskFailedError",
+        "code": "ERROR_WRONG_USERAGENT",
+        "retryable": false,
+        "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21",
+        "supportedUserAgents": [
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+        ]
+      }
+    }
+  }
+}

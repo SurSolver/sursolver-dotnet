@@ -1,0 +1,38 @@
+{
+  "area": "get-task-result",
+  "name": "get-task-result-transport-connection-reset",
+  "description": "A reset on a single getTaskResult call is a TransportError; the call itself does not retry.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "fail": "connection_reset"
+    }
+  ],
+  "call": {
+    "method": "getTaskResult",
+    "args": {
+      "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "getTaskResult",
+        "type": "TransportError",
+        "mayHaveCreatedTask": false
+      }
+    }
+  }
+}

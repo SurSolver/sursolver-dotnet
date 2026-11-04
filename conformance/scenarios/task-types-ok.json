@@ -1,0 +1,96 @@
+{
+  "area": "task-types",
+  "name": "task-types-ok",
+  "description": "listTaskTypes() replays the live catalog; checked on a documented subset.",
+  "evidence": [
+    "recorded:get-task-types.json"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/task-types",
+        "noQuery": true
+      },
+      "respond": {
+        "respondFrom": "get-task-types.json"
+      }
+    }
+  ],
+  "call": {
+    "method": "listTaskTypes"
+  },
+  "expect": {
+    "outcomeSubset": [
+      {
+        "pointer": "/task_types",
+        "length": 28
+      },
+      {
+        "pointer": "/task_types/0/task_type",
+        "equals": "CastleWebToken"
+      },
+      {
+        "pointer": "/task_types/0/required",
+        "equals": [
+          [
+            "websiteURL",
+            "pageurl",
+            "pageUrl",
+            "page_url"
+          ],
+          [
+            "websiteKey",
+            "sitekey",
+            "siteKey",
+            "website_key"
+          ],
+          [
+            "userAgent"
+          ]
+        ]
+      },
+      {
+        "pointer": "/task_types/13/any_of",
+        "equals": [
+          [
+            "gt",
+            "challenge"
+          ],
+          [
+            "captchaId"
+          ]
+        ]
+      },
+      {
+        "pointer": "/task_types/13/aliases",
+        "equals": [
+          "GeeTestV3Token",
+          "GeeTestV4Token"
+        ]
+      },
+      {
+        "pointer": "/task_types/6/task_type_proxyless",
+        "equals": "TurnstileTokenProxyLess"
+      },
+      {
+        "pointer": "/task_types/6/proxy",
+        "equals": "optional"
+      },
+      {
+        "pointer": "/task_types/6/solution_keys",
+        "equals": [
+          "token"
+        ]
+      },
+      {
+        "pointer": "/error_codes",
+        "length": 12
+      },
+      {
+        "pointer": "/error_codes/10",
+        "equals": "ERROR_WRONG_USERAGENT"
+      }
+    ]
+  }
+}

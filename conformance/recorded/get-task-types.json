@@ -1,0 +1,844 @@
+{
+  "name": "get-task-types",
+  "recorded_at": "2026-11-03T21:16:33.192Z",
+  "base_url": "https://api.sursolver.com",
+  "request": {
+    "method": "GET",
+    "path": "/v1/task-types",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "success": true,
+      "data": {
+        "task_types": [
+          {
+            "page_slug": null,
+            "display_name": "Castle Web",
+            "task_type": "CastleWebToken",
+            "task_type_proxyless": null,
+            "aliases": [
+              "CastleToken"
+            ],
+            "proxy": "none",
+            "required": [
+              [
+                "websiteURL",
+                "pageurl",
+                "pageUrl",
+                "page_url"
+              ],
+              [
+                "websiteKey",
+                "sitekey",
+                "siteKey",
+                "website_key"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [],
+            "solution_keys": [
+              "token"
+            ]
+          },
+          {
+            "page_slug": "castle-android",
+            "display_name": "Castle Android",
+            "task_type": "CastleAndroidToken",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "none",
+            "required": [
+              [
+                "publicKey"
+              ],
+              [
+                "packageName"
+              ],
+              [
+                "packageVersion"
+              ],
+              [
+                "packageBuild"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "deviceId"
+            ],
+            "solution_keys": [
+              "token",
+              "clientId",
+              "deviceId",
+              "deviceModel"
+            ]
+          },
+          {
+            "page_slug": "recaptcha-v2",
+            "display_name": "reCAPTCHA v2",
+            "task_type": "ReCaptchaV2Token",
+            "task_type_proxyless": "ReCaptchaV2TokenProxyLess",
+            "aliases": [],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "isInvisible",
+              "recaptchaDataSValue",
+              "apiDomain",
+              "cookies"
+            ],
+            "solution_keys": [
+              "gRecaptchaResponse"
+            ]
+          },
+          {
+            "page_slug": "recaptcha-v2",
+            "display_name": "reCAPTCHA v2 Enterprise",
+            "task_type": "ReCaptchaV2EnterpriseToken",
+            "task_type_proxyless": "ReCaptchaV2EnterpriseTokenProxyLess",
+            "aliases": [],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "enterprisePayload",
+              "isInvisible",
+              "recaptchaDataSValue",
+              "apiDomain",
+              "cookies"
+            ],
+            "solution_keys": [
+              "gRecaptchaResponse"
+            ]
+          },
+          {
+            "page_slug": "recaptcha-v3",
+            "display_name": "reCAPTCHA v3",
+            "task_type": "ReCaptchaV3Token",
+            "task_type_proxyless": "ReCaptchaV3TokenProxyLess",
+            "aliases": [],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "pageAction",
+              "minScore",
+              "apiDomain",
+              "cookies"
+            ],
+            "solution_keys": [
+              "gRecaptchaResponse"
+            ]
+          },
+          {
+            "page_slug": "recaptcha-v3-enterprise",
+            "display_name": "reCAPTCHA v3 Enterprise",
+            "task_type": "ReCaptchaV3EnterpriseToken",
+            "task_type_proxyless": "ReCaptchaV3EnterpriseTokenProxyLess",
+            "aliases": [],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "pageAction",
+              "minScore",
+              "apiDomain",
+              "cookies"
+            ],
+            "solution_keys": [
+              "gRecaptchaResponse"
+            ]
+          },
+          {
+            "page_slug": "turnstile",
+            "display_name": "Cloudflare Turnstile",
+            "task_type": "TurnstileToken",
+            "task_type_proxyless": "TurnstileTokenProxyLess",
+            "aliases": [],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "action",
+              "cData"
+            ],
+            "solution_keys": [
+              "token"
+            ]
+          },
+          {
+            "page_slug": "cloudflare-challenge",
+            "display_name": "Cloudflare Challenge",
+            "task_type": "CloudflareChallengeCookie",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "required",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "pageData"
+            ],
+            "solution_keys": [
+              "cf_clearance",
+              "__cf_bm",
+              "cookies"
+            ]
+          },
+          {
+            "page_slug": "vercel",
+            "display_name": "Vercel",
+            "task_type": "VercelCookie",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "required",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "scriptUrl"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [],
+            "solution_keys": [
+              "_vcrcs",
+              "cookies"
+            ]
+          },
+          {
+            "page_slug": "friendlycaptcha",
+            "display_name": "FriendlyCaptcha",
+            "task_type": "FriendlyCaptchaToken",
+            "task_type_proxyless": "FriendlyCaptchaTokenProxyLess",
+            "aliases": [],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "scriptUrl"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [],
+            "solution_keys": [
+              "token"
+            ]
+          },
+          {
+            "page_slug": "altcha",
+            "display_name": "Altcha",
+            "task_type": "AltchaToken",
+            "task_type_proxyless": "AltchaTokenProxyLess",
+            "aliases": [],
+            "proxy": "none",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "userAgent"
+              ],
+              [
+                "challengeURL"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "challengeJSON"
+            ],
+            "solution_keys": [
+              "token"
+            ]
+          },
+          {
+            "page_slug": "prosopo",
+            "display_name": "Prosopo",
+            "task_type": "ProsopoToken",
+            "task_type_proxyless": "ProsopoTokenProxyLess",
+            "aliases": [],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [],
+            "solution_keys": [
+              "token"
+            ]
+          },
+          {
+            "page_slug": "captchafox",
+            "display_name": "CaptchaFox",
+            "task_type": "CaptchaFoxToken",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "required",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [],
+            "solution_keys": [
+              "token"
+            ]
+          },
+          {
+            "page_slug": "geetest",
+            "display_name": "GeeTest",
+            "task_type": "GeeTestToken",
+            "task_type_proxyless": "GeeTestTokenProxyLess",
+            "aliases": [
+              "GeeTestV3Token",
+              "GeeTestV4Token"
+            ],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [
+              [
+                "gt",
+                "challenge"
+              ],
+              [
+                "captchaId"
+              ]
+            ],
+            "optional": [],
+            "solution_keys": [
+              "challenge",
+              "validate",
+              "seccode",
+              "captcha_id",
+              "lot_number",
+              "pass_token",
+              "gen_time",
+              "captcha_output"
+            ]
+          },
+          {
+            "page_slug": "mtcaptcha",
+            "display_name": "MTCaptcha",
+            "task_type": "MtCaptchaToken",
+            "task_type_proxyless": "MtCaptchaTokenProxyLess",
+            "aliases": [],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "testKey"
+            ],
+            "solution_keys": [
+              "token"
+            ]
+          },
+          {
+            "page_slug": "aws-challenge",
+            "display_name": "AWS Challenge",
+            "task_type": "AwsChallengeCookie",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "none",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "scriptUrl"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [],
+            "solution_keys": [
+              "aws-waf-token",
+              "cookies"
+            ]
+          },
+          {
+            "page_slug": "akamai",
+            "display_name": "Akamai",
+            "task_type": "AkamaiCookie",
+            "task_type_proxyless": "AkamaiCookieProxyLess",
+            "aliases": [],
+            "proxy": "none",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "scriptUrls"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "pageData",
+              "webSensor",
+              "verify",
+              "cookies"
+            ],
+            "solution_keys": [
+              "_abck",
+              "cookies"
+            ]
+          },
+          {
+            "page_slug": "akamai-sbsd",
+            "display_name": "Akamai SBSD",
+            "task_type": "AkamaiSbsdCookie",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "required",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "scriptUrls"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "pageData",
+              "verify",
+              "cookies"
+            ],
+            "solution_keys": [
+              "_abck",
+              "cookies"
+            ]
+          },
+          {
+            "page_slug": "akamai-bmp",
+            "display_name": "Akamai BMP",
+            "task_type": "AkamaiBmpTask",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "none",
+            "required": [
+              [
+                "version"
+              ],
+              [
+                "appPackage"
+              ],
+              [
+                "appVersion"
+              ],
+              [
+                "appVersionCode"
+              ],
+              [
+                "serverURL"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "appSignatureSHA1",
+              "deviceId",
+              "lang",
+              "numTouchTaps",
+              "numSensorEvents",
+              "cprSignal",
+              "cprToken",
+              "powResponse",
+              "ccaToken",
+              "serverSignal",
+              "jsSignals"
+            ],
+            "solution_keys": [
+              "header",
+              "version",
+              "deviceId",
+              "deviceManufacturer",
+              "deviceModel",
+              "osVersion"
+            ]
+          },
+          {
+            "page_slug": "kasada",
+            "display_name": "Kasada",
+            "task_type": "KasadaToken",
+            "task_type_proxyless": "KasadaTokenProxyLess",
+            "aliases": [],
+            "proxy": "none",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "scriptUrl"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [],
+            "solution_keys": [
+              "token",
+              "kpsdkCd",
+              "kpsdkH",
+              "kpsdkV",
+              "acceptLanguage"
+            ]
+          },
+          {
+            "page_slug": "shape",
+            "display_name": "Shape",
+            "task_type": "ShapeCookie",
+            "task_type_proxyless": "ShapeCookieProxyLess",
+            "aliases": [],
+            "proxy": "none",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "scriptUrl"
+              ],
+              [
+                "targetUrl"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "method"
+            ],
+            "solution_keys": [
+              "token",
+              "cookies",
+              "acceptLanguage"
+            ]
+          },
+          {
+            "page_slug": "datadome",
+            "display_name": "DataDome",
+            "task_type": "DataDomeSliderCookie",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "required",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "userAgent"
+              ],
+              [
+                "captchaUrl"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "cookies"
+            ],
+            "solution_keys": [
+              "datadome",
+              "cookies"
+            ]
+          },
+          {
+            "page_slug": "image-to-text",
+            "display_name": "Image to Text",
+            "task_type": "ImageToTextTask",
+            "task_type_proxyless": null,
+            "aliases": [
+              "ImageToText"
+            ],
+            "proxy": "none",
+            "required": [
+              [
+                "module"
+              ],
+              [
+                "body"
+              ]
+            ],
+            "any_of": [],
+            "optional": [],
+            "solution_keys": [
+              "answer"
+            ]
+          },
+          {
+            "page_slug": "px-invisible",
+            "display_name": "PerimeterX",
+            "task_type": "PerimeterXCookie",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "required",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "pxAppId"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "uuid",
+              "vid",
+              "blockData",
+              "blockMode",
+              "initCookies"
+            ],
+            "solution_keys": [
+              "_px3",
+              "cookies"
+            ]
+          },
+          {
+            "page_slug": "lemin",
+            "display_name": "Lemin",
+            "task_type": "LeminToken",
+            "task_type_proxyless": "LeminTokenProxyLess",
+            "aliases": [],
+            "proxy": "optional",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "websiteKey"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [],
+            "solution_keys": [
+              "answer",
+              "challenge_id"
+            ]
+          },
+          {
+            "page_slug": "imperva",
+            "display_name": "Imperva Reese84",
+            "task_type": "ImpervaCookie",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "required",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "userAgent"
+              ],
+              [
+                "sensorUrl"
+              ],
+              [
+                "cookies"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "utmvcUrl",
+              "iframeUrl"
+            ],
+            "solution_keys": [
+              "reese84",
+              "cookies"
+            ]
+          },
+          {
+            "page_slug": "imperva",
+            "display_name": "Imperva UTMVC",
+            "task_type": "ImpervaUtmvcCookie",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "required",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "userAgent"
+              ],
+              [
+                "scriptUrl"
+              ],
+              [
+                "cookies"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "iframeUrl"
+            ],
+            "solution_keys": [
+              "___utmvc",
+              "cookies"
+            ]
+          },
+          {
+            "page_slug": "aws-captcha",
+            "display_name": "AWS CAPTCHA",
+            "task_type": "AwsCaptchaCookie",
+            "task_type_proxyless": null,
+            "aliases": [],
+            "proxy": "required",
+            "required": [
+              [
+                "websiteURL"
+              ],
+              [
+                "userAgent"
+              ]
+            ],
+            "any_of": [],
+            "optional": [
+              "cookies"
+            ],
+            "solution_keys": [
+              "aws-waf-token",
+              "cookies"
+            ]
+          }
+        ],
+        "error_codes": [
+          "ERROR_KEY_DOES_NOT_EXIST",
+          "ERROR_WRONG_CLIENT_KEY",
+          "ERROR_ZERO_BALANCE",
+          "ERROR_NO_SLOT_AVAILABLE",
+          "ERROR_TYPE_NOT_SUPPORTED",
+          "ERROR_TASK_NOT_FOUND",
+          "ERROR_TASK_EXPIRED",
+          "ERROR_TASK_TIMEOUT",
+          "ERROR_FAILED",
+          "ERROR_INVALID_REQUEST",
+          "ERROR_WRONG_USERAGENT",
+          "ERROR_INTERNAL_ERROR"
+        ]
+      }
+    },
+    "body_is_json": true
+  }
+}

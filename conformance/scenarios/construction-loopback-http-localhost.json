@@ -1,0 +1,43 @@
+{
+  "area": "construction",
+  "name": "construction-loopback-http-localhost",
+  "description": "http://localhost is accepted; the request goes to the loopback host.",
+  "evidence": [
+    "contract:docs/design.md §3 construction rules"
+  ],
+  "client": {
+    "baseUrl": "http://localhost:3000"
+  },
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 0,
+          "balance": 12.5
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "ok": 12.5
+    }
+  }
+}

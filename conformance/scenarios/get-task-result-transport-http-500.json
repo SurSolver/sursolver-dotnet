@@ -1,0 +1,52 @@
+{
+  "area": "get-task-result",
+  "name": "get-task-result-transport-http-500",
+  "description": "A 500 internal envelope on a plain getTaskResult is TransportError; it says nothing about the task.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule",
+    "contract:docs/contract.md §1 internal envelope"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 500,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "json": {
+          "success": false,
+          "error": {
+            "code": "internal_error",
+            "message": "Internal server error."
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getTaskResult",
+    "args": {
+      "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+    }
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "getTaskResult",
+        "status": 500,
+        "serverCode": "internal_error",
+        "mayHaveCreatedTask": false
+      }
+    }
+  }
+}

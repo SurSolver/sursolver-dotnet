@@ -1,0 +1,51 @@
+{
+  "area": "services",
+  "name": "services-protocol-error-id-not-integer",
+  "description": "A service id that is not an integer is ProtocolError.",
+  "evidence": [
+    "contract:docs/contract.md §2.5",
+    "contract:docs/design.md §3 Errors"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/services",
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "public, max-age=30"
+        },
+        "json": {
+          "success": true,
+          "data": {
+            "services": [
+              {
+                "id": 1.5,
+                "slug": "turnstile",
+                "display_name": "Cloudflare Turnstile",
+                "price_per_request": "0.0006",
+                "status": "active",
+                "avg_latency_ms": 10
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "listServices"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "ProtocolError",
+        "operation": "listServices"
+      }
+    }
+  }
+}

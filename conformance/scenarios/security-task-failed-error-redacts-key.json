@@ -1,0 +1,50 @@
+{
+  "area": "security",
+  "name": "security-task-failed-error-redacts-key",
+  "description": "A task failure string never contains the key.",
+  "evidence": [
+    "contract:docs/contract.md §9 never echo the clientKey"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getTaskResult",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_FAILED",
+          "errorDescription": "The solver could not complete the task."
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getTaskResult",
+    "args": {
+      "taskId": "tsk_4f7a9c1e2b8d3a6f5c0e9d21"
+    }
+  },
+  "expect": {
+    "redaction": true,
+    "outcome": {
+      "error": {
+        "type": "TaskFailedError",
+        "messageExcludes": [
+          "sur_00000000000000000000000000000000"
+        ]
+      }
+    }
+  }
+}

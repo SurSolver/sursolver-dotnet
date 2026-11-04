@@ -1,0 +1,218 @@
+{
+  "name": "get-services",
+  "recorded_at": "2026-11-03T21:16:34.732Z",
+  "base_url": "https://api.sursolver.com",
+  "request": {
+    "method": "GET",
+    "path": "/v1/services",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "cache-control": "public, max-age=30",
+      "content-type": "application/json"
+    },
+    "body": {
+      "success": true,
+      "data": {
+        "services": [
+          {
+            "id": 2,
+            "slug": "castle_android",
+            "display_name": "Castle Android",
+            "price_per_request": "0.00065",
+            "status": "active",
+            "avg_latency_ms": 10
+          },
+          {
+            "id": 10,
+            "slug": "recaptcha_v3",
+            "display_name": "reCAPTCHA v3",
+            "price_per_request": "0.0006",
+            "status": "active",
+            "avg_latency_ms": 12302
+          },
+          {
+            "id": 11,
+            "slug": "recaptcha_v3_enterprise",
+            "display_name": "reCAPTCHA v3 Enterprise",
+            "price_per_request": "0.00065",
+            "status": "active",
+            "avg_latency_ms": 10755
+          },
+          {
+            "id": 12,
+            "slug": "turnstile",
+            "display_name": "Cloudflare Turnstile",
+            "price_per_request": "0.0002",
+            "status": "active",
+            "avg_latency_ms": 3891
+          },
+          {
+            "id": 13,
+            "slug": "cloudflare_challenge",
+            "display_name": "Cloudflare Challenge",
+            "price_per_request": "0.0003",
+            "status": "active",
+            "avg_latency_ms": 10325
+          },
+          {
+            "id": 14,
+            "slug": "vercel",
+            "display_name": "Vercel",
+            "price_per_request": "0.00065",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 15,
+            "slug": "friendlycaptcha",
+            "display_name": "FriendlyCaptcha",
+            "price_per_request": "0.00065",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 16,
+            "slug": "altcha",
+            "display_name": "Altcha",
+            "price_per_request": "0.0007",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 17,
+            "slug": "prosopo",
+            "display_name": "Prosopo",
+            "price_per_request": "0.0007",
+            "status": "active",
+            "avg_latency_ms": 9817
+          },
+          {
+            "id": 18,
+            "slug": "captchafox",
+            "display_name": "CaptchaFox",
+            "price_per_request": "0.00065",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 19,
+            "slug": "geetest",
+            "display_name": "GeeTest",
+            "price_per_request": "0.00065",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 20,
+            "slug": "mtcaptcha",
+            "display_name": "MTCaptcha",
+            "price_per_request": "0.0007",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 28,
+            "slug": "aws_challenge",
+            "display_name": "AWS Challenge",
+            "price_per_request": "0.0004",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 21,
+            "slug": "akamai",
+            "display_name": "Akamai",
+            "price_per_request": "0.0003",
+            "status": "active",
+            "avg_latency_ms": 4373
+          },
+          {
+            "id": 26,
+            "slug": "akamai_sbsd",
+            "display_name": "Akamai SBSD",
+            "price_per_request": "0.0004",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 27,
+            "slug": "akamai_bmp",
+            "display_name": "Akamai BMP",
+            "price_per_request": "0.0001",
+            "status": "active",
+            "avg_latency_ms": 94
+          },
+          {
+            "id": 24,
+            "slug": "kasada",
+            "display_name": "Kasada",
+            "price_per_request": "0.0007",
+            "status": "active",
+            "avg_latency_ms": 7585
+          },
+          {
+            "id": 25,
+            "slug": "shape",
+            "display_name": "Shape",
+            "price_per_request": "0.0007",
+            "status": "active",
+            "avg_latency_ms": 2529
+          },
+          {
+            "id": 22,
+            "slug": "datadome",
+            "display_name": "DataDome",
+            "price_per_request": "0.0005",
+            "status": "active",
+            "avg_latency_ms": 6432
+          },
+          {
+            "id": 29,
+            "slug": "image_to_text",
+            "display_name": "Image to Text",
+            "price_per_request": "0.00015",
+            "status": "active",
+            "avg_latency_ms": 199
+          },
+          {
+            "id": 30,
+            "slug": "lemin",
+            "display_name": "Lemin",
+            "price_per_request": "0.0005",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 31,
+            "slug": "imperva",
+            "display_name": "Imperva Reese84",
+            "price_per_request": "0.0007",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 32,
+            "slug": "imperva_utmvc",
+            "display_name": "Imperva UTMVC",
+            "price_per_request": "0.0007",
+            "status": "active",
+            "avg_latency_ms": null
+          },
+          {
+            "id": 33,
+            "slug": "aws_captcha",
+            "display_name": "AWS CAPTCHA",
+            "price_per_request": "0.0005",
+            "status": "active",
+            "avg_latency_ms": null
+          }
+        ]
+      }
+    },
+    "body_is_json": true
+  }
+}

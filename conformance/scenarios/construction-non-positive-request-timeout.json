@@ -1,0 +1,23 @@
+{
+  "area": "construction",
+  "name": "construction-non-positive-request-timeout",
+  "description": "requestTimeout 0 raises ConfigurationError.",
+  "evidence": [
+    "contract:docs/design.md §3 construction rules"
+  ],
+  "client": {
+    "requestTimeoutMs": 0
+  },
+  "script": [],
+  "call": {
+    "method": "construct"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "type": "ConfigurationError"
+      }
+    }
+  }
+}

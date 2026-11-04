@@ -1,0 +1,43 @@
+{
+  "area": "construction",
+  "name": "construction-base-url-trailing-slash",
+  "description": "A trailing slash on the base URL does not double the path separator.",
+  "evidence": [
+    "contract:docs/design.md §3 construction rules"
+  ],
+  "client": {
+    "baseUrl": "https://api.sursolver.com/"
+  },
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 0,
+          "balance": 12.5
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "ok": 12.5
+    }
+  }
+}

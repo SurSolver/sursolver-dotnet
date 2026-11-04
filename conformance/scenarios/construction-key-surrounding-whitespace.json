@@ -1,0 +1,23 @@
+{
+  "area": "construction",
+  "name": "construction-key-surrounding-whitespace",
+  "description": "A key with surrounding whitespace is a pasting mistake: ConfigurationError, nothing sent.",
+  "evidence": [
+    "contract:docs/design.md §3 construction rules"
+  ],
+  "client": {
+    "apiKey": " sur_00000000000000000000000000000000 "
+  },
+  "script": [],
+  "call": {
+    "method": "construct"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "type": "ConfigurationError"
+      }
+    }
+  }
+}

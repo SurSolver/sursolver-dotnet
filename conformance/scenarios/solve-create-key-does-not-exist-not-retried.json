@@ -1,0 +1,61 @@
+{
+  "area": "solve",
+  "name": "solve-create-key-does-not-exist-not-retried",
+  "description": "ERROR_KEY_DOES_NOT_EXIST on submit ends solve() at once with AuthenticationError.",
+  "evidence": [
+    "contract:docs/design.md §3 solve() semantics",
+    "contract:docs/contract.md §4 error-code table"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 1,
+          "errorCode": "ERROR_KEY_DOES_NOT_EXIST",
+          "errorDescription": "The clientKey does not match any active API key."
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "solve",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "type": "AuthenticationError",
+        "operation": "createTask",
+        "code": "ERROR_KEY_DOES_NOT_EXIST",
+        "retryable": false
+      }
+    }
+  }
+}

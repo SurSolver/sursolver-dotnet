@@ -1,0 +1,47 @@
+{
+  "area": "services",
+  "name": "services-ok",
+  "description": "listServices() returns the services array with price_per_request kept as a decimal string.",
+  "evidence": [
+    "recorded:get-services.json"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/services",
+        "noQuery": true
+      },
+      "respond": {
+        "respondFrom": "get-services.json"
+      }
+    }
+  ],
+  "call": {
+    "method": "listServices"
+  },
+  "expect": {
+    "outcomeSubset": [
+      {
+        "pointer": "",
+        "length": 24
+      },
+      {
+        "pointer": "/0/slug",
+        "equals": "castle_android"
+      },
+      {
+        "pointer": "/0/price_per_request",
+        "equals": "0.00065"
+      },
+      {
+        "pointer": "/0/avg_latency_ms",
+        "equals": 10
+      },
+      {
+        "pointer": "/0/status",
+        "equals": "active"
+      }
+    ]
+  }
+}

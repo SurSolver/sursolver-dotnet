@@ -1,0 +1,40 @@
+{
+  "area": "get-balance",
+  "name": "get-balance-transport-non-json-200",
+  "description": "A 200 body that is not JSON on getBalance is TransportError.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "text/plain"
+        },
+        "text": "OK"
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "getBalance",
+        "status": 200,
+        "mayHaveCreatedTask": false
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "options-no-origin",
+  "recorded_at": "2026-10-19T20:05:59.100Z",
+  "base_url": "http://127.0.0.1:3000",
+  "request": {
+    "method": "OPTIONS",
+    "path": "/createTask",
+    "headers": {},
+    "body": null
+  },
+  "response": {
+    "status": 405,
+    "headers": {
+      "content-length": "0"
+    },
+    "body": "",
+    "body_is_json": false
+  }
+}

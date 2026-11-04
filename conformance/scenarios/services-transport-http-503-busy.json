@@ -1,0 +1,48 @@
+{
+  "area": "services",
+  "name": "services-transport-http-503-busy",
+  "description": "A 503 internal envelope on the services read is TransportError with retryAfterSeconds.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule",
+    "contract:docs/contract.md §1 internal envelope"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/services",
+        "noQuery": true
+      },
+      "respond": {
+        "status": 503,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "json": {
+          "success": false,
+          "error": {
+            "code": "service_unavailable",
+            "message": "Server is busy. Try again shortly.",
+            "retry_after": 1,
+            "retry_after_seconds": 1
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "listServices"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "listServices",
+        "status": 503,
+        "serverCode": "service_unavailable",
+        "retryAfterSeconds": 1,
+        "mayHaveCreatedTask": false
+      }
+    }
+  }
+}

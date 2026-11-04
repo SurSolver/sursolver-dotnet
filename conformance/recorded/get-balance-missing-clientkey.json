@@ -1,0 +1,27 @@
+{
+  "name": "get-balance-missing-clientkey",
+  "recorded_at": "2026-10-19T20:05:59.099Z",
+  "base_url": "http://127.0.0.1:3000",
+  "request": {
+    "method": "POST",
+    "path": "/getBalance",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {}
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "cache-control": "no-store",
+      "content-length": "94"
+    },
+    "body": {
+      "errorId": 1,
+      "errorCode": "ERROR_WRONG_CLIENT_KEY",
+      "errorDescription": "clientKey is required."
+    },
+    "body_is_json": true
+  }
+}

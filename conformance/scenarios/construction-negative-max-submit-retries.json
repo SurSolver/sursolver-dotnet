@@ -1,0 +1,23 @@
+{
+  "area": "construction",
+  "name": "construction-negative-max-submit-retries",
+  "description": "maxSubmitRetries -1 raises ConfigurationError.",
+  "evidence": [
+    "contract:docs/design.md §3 construction rules"
+  ],
+  "client": {
+    "maxSubmitRetries": -1
+  },
+  "script": [],
+  "call": {
+    "method": "construct"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "type": "ConfigurationError"
+      }
+    }
+  }
+}

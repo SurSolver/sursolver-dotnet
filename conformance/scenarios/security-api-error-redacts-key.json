@@ -1,0 +1,52 @@
+{
+  "area": "security",
+  "name": "security-api-error-redacts-key",
+  "description": "An API error string never contains the key.",
+  "evidence": [
+    "contract:docs/contract.md §9 never echo the clientKey"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "respondFrom": "create-task-invalid-key.json"
+      }
+    }
+  ],
+  "call": {
+    "method": "createTask",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "redaction": true,
+    "outcome": {
+      "error": {
+        "type": "AuthenticationError",
+        "code": "ERROR_KEY_DOES_NOT_EXIST",
+        "messageExcludes": [
+          "sur_00000000000000000000000000000000"
+        ]
+      }
+    }
+  }
+}

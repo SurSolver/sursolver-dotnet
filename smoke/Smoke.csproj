@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Live smoke test against the real API; costs nothing. Run from the repository root: dotnet run (project: smoke) -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TestTargetFramework Condition="'$(TestTargetFramework)' == ''">net9.0</TestTargetFramework>
+    <TargetFramework>$(TestTargetFramework)</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../src/SurSolver/SurSolver.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,45 @@
+{
+  "area": "task-types",
+  "name": "task-types-protocol-error-error-codes-not-strings",
+  "description": "error_codes that is not a list of strings is ProtocolError.",
+  "evidence": [
+    "contract:docs/contract.md §2.4",
+    "contract:docs/design.md §3 Errors"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "GET",
+        "path": "/v1/task-types",
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "json": {
+          "success": true,
+          "data": {
+            "task_types": [],
+            "error_codes": [
+              "ERROR_FAILED",
+              7
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "listTaskTypes"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "ProtocolError",
+        "operation": "listTaskTypes"
+      }
+    }
+  }
+}

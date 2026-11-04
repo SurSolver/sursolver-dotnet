@@ -1,0 +1,49 @@
+{
+  "area": "solve",
+  "name": "solve-create-transport-failure-not-retried",
+  "description": "A transport failure on createTask is surfaced at once and never resubmitted (no idempotency).",
+  "evidence": [
+    "contract:docs/design.md §3 solve() semantics",
+    "contract:docs/contract.md §5 charging and retry safety"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/createTask",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000",
+          "task": {
+            "type": "TurnstileTokenProxyLess",
+            "websiteURL": "https://example.com/login",
+            "websiteKey": "0x4AAAAAAAexample",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+          }
+        },
+        "noQuery": true
+      },
+      "fail": "connection_reset"
+    }
+  ],
+  "call": {
+    "method": "solve",
+    "args": {
+      "task": {
+        "type": "TurnstileTokenProxyLess",
+        "websiteURL": "https://example.com/login",
+        "websiteKey": "0x4AAAAAAAexample",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36"
+      }
+    }
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "createTask",
+        "mayHaveCreatedTask": true
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "area": "get-balance",
+  "name": "get-balance-transport-connection-reset",
+  "description": "A reset on getBalance is a TransportError.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "fail": "connection_reset"
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "error": {
+        "operation": "getBalance",
+        "type": "TransportError",
+        "mayHaveCreatedTask": false
+      }
+    }
+  }
+}

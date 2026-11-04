@@ -1,0 +1,43 @@
+{
+  "area": "construction",
+  "name": "construction-base-url-path-prefix",
+  "description": "A base URL with a path prefix (the website dev proxy) keeps the prefix.",
+  "evidence": [
+    "contract:docs/design.md §3 construction rules"
+  ],
+  "client": {
+    "baseUrl": "http://localhost:4321/api"
+  },
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/api/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json",
+          "cache-control": "no-store"
+        },
+        "json": {
+          "errorId": 0,
+          "balance": 12.5
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "sleeps": [],
+    "outcome": {
+      "ok": 12.5
+    }
+  }
+}

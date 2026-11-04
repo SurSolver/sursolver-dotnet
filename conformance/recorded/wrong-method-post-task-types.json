@@ -1,0 +1,29 @@
+{
+  "name": "wrong-method-post-task-types",
+  "recorded_at": "2026-10-19T20:05:59.100Z",
+  "base_url": "http://127.0.0.1:3000",
+  "request": {
+    "method": "POST",
+    "path": "/v1/task-types",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {}
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "content-type": "application/json",
+      "cache-control": "no-store",
+      "content-length": "75"
+    },
+    "body": {
+      "success": false,
+      "error": {
+        "code": "not_found",
+        "message": "Route not found."
+      }
+    },
+    "body_is_json": true
+  }
+}

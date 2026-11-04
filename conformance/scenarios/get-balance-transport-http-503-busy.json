@@ -1,0 +1,51 @@
+{
+  "area": "get-balance",
+  "name": "get-balance-transport-http-503-busy",
+  "description": "A 503 internal envelope on getBalance is TransportError with status, serverCode and retryAfterSeconds; no task can exist.",
+  "evidence": [
+    "contract:docs/contract.md §1 transport-failure rule",
+    "contract:docs/contract.md §1 internal envelope"
+  ],
+  "script": [
+    {
+      "expect": {
+        "method": "POST",
+        "path": "/getBalance",
+        "json": {
+          "clientKey": "sur_00000000000000000000000000000000"
+        },
+        "noQuery": true
+      },
+      "respond": {
+        "status": 503,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "json": {
+          "success": false,
+          "error": {
+            "code": "service_unavailable",
+            "message": "Server is busy. Try again shortly.",
+            "retry_after": 1,
+            "retry_after_seconds": 1
+          }
+        }
+      }
+    }
+  ],
+  "call": {
+    "method": "getBalance"
+  },
+  "expect": {
+    "outcome": {
+      "error": {
+        "type": "TransportError",
+        "operation": "getBalance",
+        "status": 503,
+        "serverCode": "service_unavailable",
+        "retryAfterSeconds": 1,
+        "mayHaveCreatedTask": false
+      }
+    }
+  }
+}
